@@ -1,0 +1,27 @@
+{
+  "name": "jsonvars",
+  "version": "0.1.0",
+  "description": "Typed variables in JSON payload templates",
+  "type": "module",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "git+https://github.com/ThisMeansMore/jsonvars.git" },
+  "bugs": { "url": "https://github.com/ThisMeansMore/jsonvars/issues" },
+  "homepage": "https://github.com/ThisMeansMore/jsonvars#readme",
+  "publishConfig": { "access": "public" },
+  "engines": { "node": ">=18" },
+  "files": ["dist", "README.md", "LICENSE"],
+  "sideEffects": false,
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run build && node --test test/*.spec.js",
+    "prepack": "npm run build"
+  },
+  "devDependencies": { "typescript": "^5.9.3" },
+  "keywords": ["json", "template", "variables", "typescript"]
+}
