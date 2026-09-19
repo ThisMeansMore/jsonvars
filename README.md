@@ -1,14 +1,12 @@
-# jsonvars
+# payload-vars
 
 Extract typed variables from parsed JSON templates and render them with runtime values. This ESM package has no runtime dependencies and works in modern browsers and Node.js 18+.
 
 ## Install
 
 ```sh
-npm install jsonvars
+npm install payload-vars
 ```
-
-Confirm the package name before publication.
 
 ## Syntax and types
 
@@ -28,27 +26,47 @@ Arrays cannot contain `null`. Non-nullable empty arrays stay empty. Values are n
 
 ```ts
 import {
-  extractPayloadVariables, renderPayloadTemplate, PayloadTemplateError,
-  type JsonValue, type JsonObject, type JsonPrimitive,
-  type PayloadVariable, type PayloadVariableType, type PayloadTemplateIssue,
-} from 'jsonvars';
+  extractPayloadVariables,
+  renderPayloadTemplate,
+  PayloadTemplateError,
+  type JsonValue,
+  type JsonObject,
+  type JsonPrimitive,
+  type PayloadVariable,
+  type PayloadVariableType,
+  type PayloadTemplateIssue,
+} from 'payload-vars';
 
 const template: JsonValue = {
   orderId: '{{orderId:string}}',
-  details: { amount: '{{amount:number}}', copiedAmount: '{{amount:number}}' },
+  details: {
+    amount: '{{amount:number}}',
+    copiedAmount: '{{amount:number}}',
+  },
   products: '{{products:string[]}}',
   comment: '{{comment:string?}}',
 };
 
 extractPayloadVariables(template);
-// [{ name: 'orderId', type: 'string' }, { name: 'amount', type: 'number' },
-//  { name: 'products', type: 'string[]' }, { name: 'comment', type: 'string?' }]
+// [
+//   { name: 'orderId', type: 'string' },
+//   { name: 'amount', type: 'number' },
+//   { name: 'products', type: 'string[]' },
+//   { name: 'comment', type: 'string?' },
+// ]
 
 const payload = renderPayloadTemplate(template, {
-  orderId: 'ORD-123', amount: 19.95, products: ['A', 'B'], comment: '',
+  orderId: 'ORD-123',
+  amount: 19.95,
+  products: ['A', 'B'],
+  comment: '',
 });
-// { orderId: 'ORD-123', details: { amount: 19.95, copiedAmount: 19.95 },
-//   products: ['A', 'B'], comment: null }
+// {
+//   orderId: 'ORD-123',
+//   details: { amount: 19.95, copiedAmount: 19.95 },
+//   products: ['A', 'B'],
+//   comment: null,
+// }
 ```
 
 Both functions accept already parsed JSON values. Extraction traverses nested objects and arrays in first occurrence order. Repeated variables must have identical complete types, including `?`. Rendering ignores unused variables and creates a fresh result without mutating inputs.
@@ -78,6 +96,7 @@ try {
         break;
     }
   }
+
   throw error;
 }
 ```
